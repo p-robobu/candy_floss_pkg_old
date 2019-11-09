@@ -35,4 +35,4 @@ if [ "$res_prompt" == "Y" ]; then
     ping 011411P0028.local
 fi
 
-
+echo "#### Installation finished" 
