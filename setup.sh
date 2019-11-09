@@ -12,10 +12,15 @@ if [ "$res_prompt" == "N" ]; then
 fi
 
 # Install Baxter SDK
+sudo apt-get update
+sudo apt-get install git-core python-argparse python-wstool python-vcstools python-rosdep ros-kinetic-control-msgs ros-kinetic-joystick-drivers gazebo7 ros-kinetic-qt-build ros-kinetic-gazebo-ros-control ros-kinetic-gazebo-ros-pkgs ros-kinetic-ros-control ros-kinetic-control-toolbox ros-kinetic-realtime-tools ros-kinetic-ros-controllers ros-kinetic-xacro python-wstool ros-kinetic-tf-conversions ros-kinetic-kdl-parser ros-kinetic-moveit
+
 cd ..
-wstool init .
+wstool init
 wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter/master/baxter_sdk.rosinstall
+wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter_simulator/kinetic-devel/baxter_simulator.rosinstall
 wstool update
+git clone https://github.com/ros-planning/moveit_robots.git
 source /opt/ros/kinetic/setup.bash
 
 cd ..
