@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   moveit_visual_tools
   roscpp
+  rospy
   shape_msgs
   tf
   trajectory_msgs
@@ -128,6 +129,7 @@ catkin_package(
     moveit_ros_planning_interface
     moveit_visual_tools
     roscpp
+    rospy
     shape_msgs
     tf
     trajectory_msgs
