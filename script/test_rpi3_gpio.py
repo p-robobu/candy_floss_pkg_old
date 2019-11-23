@@ -19,13 +19,17 @@ class GpioCtrl:
 
 
     # time added
-    def gpio_pwm_on(self, duty):
-        rospy.loginfo('GPIO' + str(self.pinNo) + ' PWM Duty ' + str(duty) + '[%] ON')
-        while not rospy.is_shutdown():
+    def gpio_pwm_on(self, req):
+        rospy.loginfo('GPIO' + str(self.pinNo) + ' PWM Duty ' + str(req.duty) + '[%] ON')
+        loop = 0
+        while (req.time/0.01) != loop:
             GPIO.output(self.pinNo, True)
-            time.sleep(duty/10000.0)
+            time.sleep(req.duty/10000.0)
             GPIO.output(self.pinNo, False)
-            time.sleep(0.01 - (duty/10000.0))
+            time.sleep(0.01 - (req.duty/10000.0))
+            loop ++
+        self.gpio_off()
+        self.cleanup()
 
     def gpio_off(self):
         rospy.loginfo('GPIO' + str(self.pinNo) + ' OFF')
@@ -36,17 +40,17 @@ class GpioCtrl:
         rospy.loginfo('GPIO cleanup done')
 
 
-    def motor_start_server(self):
-        #rospy.init_node('motor_start_server')
-        s = rospy.Servicce('motor_start_time', MotorStartTime, self.gpio_pwm_on(req.time))
-        rospy.loginfo('Ready to motor_start_server')
+    def motor_on_server(self):
+        #rospy.init_node('motor_on_server')
+        s = rospy.Service('motor_on_server', MotorOn, self.gpio_pwm_on)
+        rospy.loginfo('Ready to motor_on_server')
         rospy.spin()
 
 
 
 if __name__ == '__main__':
     gpioCtrl = GpioCtrl(26)
-    gpioCtrl.motor_start_server()
+    gpioCtrl.motor_on_server()
     #gpioCtrl.gpio_pwm_on(10)
     #gpioCtrl.gpio_off()
     #gpioCtrl.gpio_cleanup()
