@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+import rospy
+from candy_floss.srv import *
 import RPi.GPIO as GPIO
 import time
-import rospy
+
 
 class GpioCtrl:
     def __init__(self, pinNo):
@@ -16,6 +18,7 @@ class GpioCtrl:
         GPIO.output(self.pinNo, True)
 
 
+    # time added
     def gpio_pwm_on(self, duty):
         rospy.loginfo('GPIO' + str(self.pinNo) + ' PWM Duty ' + str(duty) + '[%] ON')
         while not rospy.is_shutdown():
@@ -32,11 +35,21 @@ class GpioCtrl:
         GPIO.cleanup()
         rospy.loginfo('GPIO cleanup done')
 
+
+    def motor_start_server(self):
+        #rospy.init_node('motor_start_server')
+        s = rospy.Servicce('motor_start_time', MotorStartTime, self.gpio_pwm_on(req.time))
+        rospy.loginfo('Ready to motor_start_server')
+        rospy.spin()
+
+
+
 if __name__ == '__main__':
     gpioCtrl = GpioCtrl(26)
-    gpioCtrl.gpio_pwm_on(10)
-    gpioCtrl.gpio_off()
-    gpioCtrl.gpio_cleanup()
+    gpioCtrl.motor_start_server()
+    #gpioCtrl.gpio_pwm_on(10)
+    #gpioCtrl.gpio_off()
+    #gpioCtrl.gpio_cleanup()
 
 
     #gpioCtrl.gpio_on()
