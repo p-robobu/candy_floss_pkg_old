@@ -4,7 +4,6 @@ from candy_floss.srv import *
 import RPi.GPIO as GPIO
 import time
 
-
 class GpioCtrl:
     def __init__(self, pinNo):
         self.pinNo = pinNo
@@ -17,8 +16,6 @@ class GpioCtrl:
         rospy.loginfo('GPIO' + str(self.pinNo) + ' ON')
         GPIO.output(self.pinNo, True)
 
-
-    # time added
     def gpio_pwm_on(self, req):
         rospy.loginfo('GPIO' + str(self.pinNo) + ' PWM Duty ' + str(req.duty) + '[%] ON')
         loop = 0
@@ -27,9 +24,9 @@ class GpioCtrl:
             time.sleep(req.duty/10000.0)
             GPIO.output(self.pinNo, False)
             time.sleep(0.01 - (req.duty/10000.0))
-            loop ++
+            loop += 1
         self.gpio_off()
-        self.cleanup()
+        return MotorOnResponse(True)
 
     def gpio_off(self):
         rospy.loginfo('GPIO' + str(self.pinNo) + ' OFF')
@@ -39,22 +36,15 @@ class GpioCtrl:
         GPIO.cleanup()
         rospy.loginfo('GPIO cleanup done')
 
-
     def motor_on_server(self):
         #rospy.init_node('motor_on_server')
         s = rospy.Service('motor_on_server', MotorOn, self.gpio_pwm_on)
         rospy.loginfo('Ready to motor_on_server')
         rospy.spin()
 
-
-
 if __name__ == '__main__':
     gpioCtrl = GpioCtrl(26)
     gpioCtrl.motor_on_server()
-    #gpioCtrl.gpio_pwm_on(10)
-    #gpioCtrl.gpio_off()
-    #gpioCtrl.gpio_cleanup()
-
 
     #gpioCtrl.gpio_on()
     #time.sleep(5)
