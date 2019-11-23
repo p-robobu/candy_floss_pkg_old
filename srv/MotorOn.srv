@@ -1,3 +1,4 @@
 int64 time
+int64 duty
 ---
 bool result
