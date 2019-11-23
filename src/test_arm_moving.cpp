@@ -1,10 +1,15 @@
 // 参考URL　https://gbiggs.github.io/ros_moveit_rsj_tutorial/manipulators_and_moveit.html
 #include <ros/ros.h>
 #include <moveit/move_group_interface/move_group_interface.h>
+#include "candy_floss/MotorOn.h"
+
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "test_arm_moving");
     ros::NodeHandle nh;
+
+    ros::ServiceClient client = nh.serviceClient<candy_floss::MotorOn>("motor_on_server");
+    candy_floss::MotorOn srv;
 
     //ROSのアシンクロナスな機能を初期化
     ros::AsyncSpinner spinner(2);
@@ -14,7 +19,6 @@ int main(int argc, char **argv) {
     left_arm.setPoseReferenceFrame("base_link");
     moveit::planning_interface::MoveGroupInterface right_arm("right_arm");
     right_arm.setPoseReferenceFrame("base_link");
-
 
 
     // 動作ポイントを指定
@@ -34,6 +38,14 @@ int main(int argc, char **argv) {
     left_arm.move();
     ROS_INFO("Succeed in move to point");
 
+    srv.request.time = 5;
+    srv.request.duty = 10;
+    if (client.call(srv)){
+        ROS_INFO("Succeed in starting motor service");
+    }else{
+        ROS_INFO("Failed to starting motor service");
+    }
+
 
     ROS_INFO("Start right arm moving");
     geometry_msgs::PoseStamped r_p1;
@@ -51,6 +63,16 @@ int main(int argc, char **argv) {
     right_arm.move();
     ROS_INFO("Succeed in move to point");
 
-    ros::shutdown(); // ノードの停止
+    srv.request.time = 2;
+    srv.request.duty = 100;
+    if (client.call(srv)){
+        ROS_INFO("Succeed in starting motor service");
+    }else{
+        ROS_INFO("Failed to starting motor service");
+    }
+
+
+    // ノードの停止
+    ros::shutdown();
     return 0;
 }

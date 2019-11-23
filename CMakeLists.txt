@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(candy_floss)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
- add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -73,7 +73,7 @@ find_package(Boost REQUIRED
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  MotorStartTime.srv
+  MotorOn.srv
 )
 
 ## Generate actions in the 'action' folder
