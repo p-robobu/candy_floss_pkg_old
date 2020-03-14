@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<robot name="CandyFlossMaker">
+<link name="world"/>
+<joint name="fixed" type="fixed">
+  <parent link="world"/>
+  <child  link="base_link"/>
+</joint>
+
+<link name="base_link">
+  <inertial>
+    <origin rpy="1.5708 0 -1.5708" xyz="0.0 0.0 0.0"/>
+    <mass value="100.0"/>
+    <inertia ixx="10.0" ixy="0.0" ixz="0.0" iyy="10.0" iyz="0.0" izz="10.0"/>
+  </inertial>
+  <visual>
+    <origin rpy="1.5708 0 -1.5708" xyz="1 0 0"/>
+    <geometry>
+      <mesh filename="package://candy_floss/meshes/CandyFlossMaker.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver">
+      <color rgba="1 0 0 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin rpy="1.5708 0 -1.5708" xyz="0 0 0"/>
+    <geometry>
+      <mesh filename="package://candy_floss/meshes/CandyFlossMaker.stl"/>
+    </geometry>
+  </collision>
+</link>
+</robot>

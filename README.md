@@ -1,6 +1,13 @@
 # CandyFloss
 Let's make candy floss with a baxter!!
 
+## Baxterラクチンセットアップ
+1. catkin_wsの下にリポジトリをクローンして`setup.sh`を実行する。
+   パスワード入力求められたり、いろいろ聞かれるけど適当に対応してあげて
+
+       $ cd catkin_ws/src
+       $ clone https://github.com/p-robobu/candy_floss.git
+       $ bash ./setup.sh
 
 ## baxter ノードから指定ポイントへ動かす
 
